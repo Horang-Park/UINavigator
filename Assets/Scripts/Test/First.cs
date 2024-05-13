@@ -1,3 +1,4 @@
+using System;
 using Horang.UINavigator.UIView;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,6 +7,11 @@ namespace Test
 {
 	public class First : UIView
 	{
+		public Action ButtonEvent
+		{
+			set => button.onClick.AddListener(() => value?.Invoke());
+		}
+		
 		[SerializeField] private Button button;
 
 		public override void ShowInitialize()

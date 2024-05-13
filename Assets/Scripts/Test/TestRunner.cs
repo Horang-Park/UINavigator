@@ -1,3 +1,4 @@
+using System;
 using Horang.UINavigator.UIView;
 using UnityEngine;
 
@@ -7,6 +8,11 @@ namespace Test
 	{
 		[SerializeField] private UIViewNavigator uiViewNavigator;
 
+		private void Start()
+		{
+			new FirstUIEventBinder(uiViewNavigator).BindEvent();
+		}
+
 		private void Update()
 		{
 			if (Input.GetKeyDown(KeyCode.F1))
@@ -14,13 +20,6 @@ namespace Test
 				var first = uiViewNavigator.Get<First>("1");
 				
 				uiViewNavigator.Push(first);
-			}
-			
-			if (Input.GetKeyDown(KeyCode.F2))
-			{
-				var second = uiViewNavigator.Get<Second>("2");
-				
-				uiViewNavigator.Push(second);
 			}
 			
 			if (Input.GetKeyDown(KeyCode.F3))
