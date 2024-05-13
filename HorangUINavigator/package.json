@@ -1,0 +1,11 @@
+{
+    "name": "com.horang.uinavigator",
+    "version": "0.0.1",
+    "displayName": "UINavigator",
+    "description": "An Unity Library",
+    "unity": "2022.3",
+    "dependencies": {=
+   },
+    "keywords": ["library", "UI", "UINavigator", "horang"],
+    "author": {"name": "Horang Park", "email": "horang_park@naver.com"}
+}
