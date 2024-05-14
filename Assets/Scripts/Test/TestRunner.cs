@@ -1,5 +1,6 @@
 using System;
 using Horang.UINavigator.UIView;
+using Test.EventBinders;
 using UnityEngine;
 
 namespace Test
@@ -8,9 +9,14 @@ namespace Test
 	{
 		[SerializeField] private UIViewNavigator uiViewNavigator;
 
+		private void Awake()
+		{
+			uiViewNavigator.Initialize();
+		}
+
 		private void Start()
 		{
-			new FirstUIEventBinder(uiViewNavigator).BindEvent();
+			uiViewNavigator.BindEvent(new FirstUIEventBinder());
 		}
 
 		private void Update()
