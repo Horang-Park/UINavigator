@@ -1,4 +1,5 @@
 using System;
+using Horang.UINavigator;
 using Horang.UINavigator.UIView;
 using Test.EventBinders;
 using UnityEngine;

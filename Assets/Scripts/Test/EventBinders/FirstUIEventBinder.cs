@@ -1,3 +1,4 @@
+using Horang.UINavigator;
 using Horang.UINavigator.UIView;
 
 namespace Test.EventBinders

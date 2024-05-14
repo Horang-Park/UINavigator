@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using System.Data;
 using Horang.UINavigator.Exceptions;
+using Horang.UINavigator.UIView;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Horang.UINavigator.UIView
+namespace Horang.UINavigator
 {
 	[RequireComponent(typeof(RectTransform))]
 	[RequireComponent(typeof(Canvas))]
@@ -12,8 +13,8 @@ namespace Horang.UINavigator.UIView
 	[RequireComponent(typeof(GraphicRaycaster))]
 	public class UIViewNavigator : MonoBehaviour
 	{
-		private readonly Dictionary<int, UIView> _views = new();
-		private readonly Stack<UIView> _viewStack = new();
+		private readonly Dictionary<int, UIView.UIView> _views = new();
+		private readonly Stack<UIView.UIView> _viewStack = new();
 
 		private bool _initialized;
 		
@@ -26,7 +27,7 @@ namespace Horang.UINavigator.UIView
 				return;
 			}
 			
-			var childViews = gameObject.GetComponentsInChildren<UIView>();
+			var childViews = gameObject.GetComponentsInChildren<UIView.UIView>();
 
 			foreach (var childView in childViews)
 			{
@@ -47,7 +48,7 @@ namespace Horang.UINavigator.UIView
 			_initialized = true;
 		}
 
-		public T Get<T>(string viewGameObjectName) where T : UIView
+		public T Get<T>(string viewGameObjectName) where T : UIView.UIView
 		{
 			if (_initialized is false)
 			{
@@ -68,7 +69,7 @@ namespace Horang.UINavigator.UIView
 			throw new KeyNotFoundException();
 		}
 
-		public void Push(UIView uiView)
+		public void Push(UIView.UIView uiView)
 		{
 			if (_initialized is false)
 			{
@@ -80,6 +81,13 @@ namespace Horang.UINavigator.UIView
 			if (_viewStack.Contains(uiView))
 			{
 				Debug.LogWarning($"[{uiView.name}] is already appeared.");
+				
+				return;
+			}
+			
+			if (uiView.VisibleState is ViewBase.VisibleStates.Disappearing)
+			{
+				Debug.LogWarning($"[{uiView.name}] is disappearing now.");
 				
 				return;
 			}
@@ -106,7 +114,16 @@ namespace Horang.UINavigator.UIView
 				return;
 			}
 
-			var ui = _viewStack.Pop();
+			var ui = _viewStack.Peek();
+
+			if (ui.VisibleState is ViewBase.VisibleStates.Appearing)
+			{
+				Debug.LogWarning($"[{ui.name}] is appearing now.");
+				
+				return;
+			}
+
+			ui = _viewStack.Pop();
 			ui.HideInitialize();
 			ui.Hide();
 		}
